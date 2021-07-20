@@ -95,32 +95,32 @@ class Carousel extends StatefulWidget {
   final void Function(int, int)? onImageChange;
 
   Carousel({
-    required this.images,
+    this.images,
     this.animationCurve = Curves.ease,
     this.animationDuration = const Duration(milliseconds: 300),
     this.dotSize = 8.0,
     this.dotSpacing = 25.0,
     this.dotIncreaseSize = 2.0,
     this.dotColor = Colors.white,
-    required this.dotBgColor,
+    this.dotBgColor,
     this.dotIncreasedColor = Colors.white,
     this.showIndicator = true,
     this.indicatorBgPadding = 20.0,
     this.boxFit = BoxFit.cover,
     this.borderRadius = false,
-    required this.radius,
+    this.radius,
     this.dotPosition = DotPosition.bottomCenter,
     this.dotHorizontalPadding = 0.0,
     this.dotVerticalPadding = 0.0,
     this.moveIndicatorFromBottom = 0.0,
     this.noRadiusForIndicator = false,
     this.overlayShadow = false,
-    required this.overlayShadowColors,
+    this.overlayShadowColors,
     this.overlayShadowSize = 0.5,
     this.autoplay = true,
     this.autoplayDuration = const Duration(seconds: 3),
-    required this.onImageTap,
-    required this.onImageChange,
+    this.onImageTap,
+    this.onImageChange,
     this.defaultImage,
   });
 
@@ -137,7 +137,7 @@ class CarouselState extends State<Carousel> {
   void initState() {
     super.initState();
 
-    if (widget.images != null && widget.images!.isNotEmpty) {
+    if (widget.images! != null && widget.images!.isNotEmpty) {
       if (widget.autoplay) {
         timer = Timer.periodic(widget.autoplayDuration, (_) {
           if (_controller.hasClients) {
@@ -167,7 +167,7 @@ class CarouselState extends State<Carousel> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> listImages = (widget.images != null &&
+    final List<Widget> listImages = (widget.images! != null &&
             widget.images!.isNotEmpty)
         ? widget.images!.map<Widget>(
             (netImage) {
@@ -175,7 +175,7 @@ class CarouselState extends State<Carousel> {
                 return Container(
                   decoration: BoxDecoration(
                     borderRadius: widget.borderRadius
-                        ? BorderRadius.all(widget.radius != null
+                        ? BorderRadius.all(widget.radius! != null
                             ? widget.radius
                             : Radius.circular(8.0))
                         : null,
@@ -193,11 +193,11 @@ class CarouselState extends State<Carousel> {
                               end: Alignment.center,
                               stops: [0.0, widget.overlayShadowSize],
                               colors: [
-                                widget.overlayShadowColors != null
-                                    ? widget.overlayShadowColors
+                                widget.overlayShadowColors! != null
+                                    ? widget.overlayShadowColors!
                                         .withOpacity(1.0)
                                     : Colors.grey[800].withOpacity(1.0),
-                                widget.overlayShadowColors != null
+                                widget.overlayShadowColors! != null
                                     ? widget.overlayShadowColors!
                                         .withOpacity(0.0)
                                     : Colors.grey[800]!.withOpacity(0.0)
@@ -210,8 +210,8 @@ class CarouselState extends State<Carousel> {
               } else if (netImage is FadeInImage) {
                 return ClipRRect(
                   borderRadius: widget.borderRadius
-                      ? BorderRadius.all(widget.radius != null
-                          ? widget.radius
+                      ? BorderRadius.all(widget.radius! != null
+                          ? widget.radius!
                           : Radius.circular(8.0))
                       : null,
                   child: Container(
@@ -221,10 +221,10 @@ class CarouselState extends State<Carousel> {
                           end: Alignment.center,
                           stops: [0.0, widget.overlayShadowSize],
                           colors: [
-                            widget.overlayShadowColors != null
-                                ? widget.overlayShadowColors.withOpacity(1.0)
+                            widget.overlayShadowColors! != null
+                                ? widget.overlayShadowColors!.withOpacity(1.0)
                                 : Colors.grey[800].withOpacity(1.0),
-                            widget.overlayShadowColors != null
+                            widget.overlayShadowColors! != null
                                 ? widget.overlayShadowColors!.withOpacity(0.0)
                                 : Colors.grey[800]!.withOpacity(0.0)
                           ],
@@ -242,7 +242,7 @@ class CarouselState extends State<Carousel> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: widget.borderRadius
-                          ? BorderRadius.all(widget.radius != null
+                          ? BorderRadius.all(widget.radius! != null
                               ? widget.radius
                               : Radius.circular(8.0))
                           : null,
@@ -260,11 +260,11 @@ class CarouselState extends State<Carousel> {
                                 end: Alignment.center,
                                 stops: [0.0, widget.overlayShadowSize],
                                 colors: [
-                                  widget.overlayShadowColors != null
-                                      ? widget.overlayShadowColors
+                                  widget.overlayShadowColors! != null
+                                      ? widget.overlayShadowColors!
                                           .withOpacity(1.0)
                                       : Colors.grey[800].withOpacity(1.0),
-                                  widget.overlayShadowColors != null
+                                  widget.overlayShadowColors! != null
                                       ? widget.overlayShadowColors!
                                           .withOpacity(0.0)
                                       : Colors.grey[800]!.withOpacity(0.0)
@@ -314,21 +314,21 @@ class CarouselState extends State<Carousel> {
                 controller: _controller,
                 children: listImages,
                 onPageChanged: (currentPage) {
-                  if (widget.onImageChange != null) {
-                    widget.onImageChange(_currentImageIndex, currentPage);
+                  if (widget.onImageChange! != null) {
+                    widget.onImageChange(_currentImageIndex, currentPage)!;
                   }
 
                   _currentImageIndex = currentPage;
                 },
               );
 
-              if (widget.onImageTap == null) {
+              if (widget.onImageTap! == null) {
                 return pageView;
               }
 
               return GestureDetector(
                 child: pageView,
-                onTap: () => widget.onImageTap(_currentImageIndex),
+                onTap: () => widget.onImageTap(_currentImageIndex)!,
               );
             },
           ),
@@ -341,18 +341,18 @@ class CarouselState extends State<Carousel> {
                 right: right,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: widget.dotBgColor == null
+                    color: widget.dotBgColor! == null
                         ? Colors.grey[800]!.withOpacity(0.5)
-                        : widget.dotBgColor,
+                        : widget.dotBgColor!,
                     borderRadius: widget.borderRadius
                         ? (widget.noRadiusForIndicator
                             ? null
                             : BorderRadius.only(
-                                bottomLeft: widget.radius != null
-                                    ? widget.radius
+                                bottomLeft: widget.radius! != null
+                                    ? widget.radius!
                                     : Radius.circular(8.0),
-                                bottomRight: widget.radius != null
-                                    ? widget.radius
+                                bottomRight: widget.radius! != null
+                                    ? widget.radius!
                                     : Radius.circular(8.0)))
                         : null,
                   ),
