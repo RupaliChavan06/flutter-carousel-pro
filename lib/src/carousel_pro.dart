@@ -14,7 +14,7 @@ enum DotPosition {
 
 class Carousel extends StatefulWidget {
   //All the images on this Carousel.
-  final List images;
+  final List? images;
 
   //All the images on this Carousel.
   final defaultImage;
@@ -137,11 +137,11 @@ class CarouselState extends State<Carousel> {
   void initState() {
     super.initState();
 
-    if (widget.images != null && widget.images.isNotEmpty) {
+    if (widget.images != null && widget.images!.isNotEmpty) {
       if (widget.autoplay) {
         timer = Timer.periodic(widget.autoplayDuration, (_) {
           if (_controller.hasClients) {
-            if (_controller.page.round() == widget.images.length - 1) {
+            if (_controller.page.round() == widget.images!.length - 1) {
               _controller.animateToPage(
                 0,
                 duration: widget.animationDuration,
@@ -170,8 +170,8 @@ class CarouselState extends State<Carousel> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> listImages = (widget.images != null &&
-            widget.images.isNotEmpty)
-        ? widget.images.map<Widget>(
+            widget.images!.isNotEmpty)
+        ? widget.images!.map<Widget>(
             (netImage) {
               if (netImage is ImageProvider) {
                 return Container(
