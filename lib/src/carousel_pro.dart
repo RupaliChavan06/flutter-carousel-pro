@@ -95,7 +95,7 @@ class Carousel extends StatefulWidget {
   final void Function(int, int)? onImageChange;
 
   Carousel({
-    this.images = [],
+    this.images,
     this.animationCurve = Curves.ease,
     this.animationDuration = const Duration(milliseconds: 300),
     this.dotSize = 8.0,
@@ -175,8 +175,8 @@ class CarouselState extends State<Carousel> {
                 return Container(
                   decoration: BoxDecoration(
                     borderRadius: widget.borderRadius
-                        ? BorderRadius.all(widget.radius! != null
-                            ? widget.radius
+                        ? BorderRadius.all(widget.radius != null
+                            ? widget.radius!
                             : Radius.circular(8.0))
                         : null,
                     image: DecorationImage(
@@ -193,11 +193,11 @@ class CarouselState extends State<Carousel> {
                               end: Alignment.center,
                               stops: [0.0, widget.overlayShadowSize],
                               colors: [
-                                widget.overlayShadowColors! != null
+                                widget.overlayShadowColors != null
                                     ? widget.overlayShadowColors!
                                         .withOpacity(1.0)
-                                    : Colors.grey[800].withOpacity(1.0),
-                                widget.overlayShadowColors! != null
+                                    : Colors.grey[800]!.withOpacity(1.0),
+                                widget.overlayShadowColors != null
                                     ? widget.overlayShadowColors!
                                         .withOpacity(0.0)
                                     : Colors.grey[800]!.withOpacity(0.0)
@@ -223,7 +223,7 @@ class CarouselState extends State<Carousel> {
                           colors: [
                             widget.overlayShadowColors! != null
                                 ? widget.overlayShadowColors!.withOpacity(1.0)
-                                : Colors.grey[800].withOpacity(1.0),
+                                : Colors.grey[800]!.withOpacity(1.0),
                             widget.overlayShadowColors! != null
                                 ? widget.overlayShadowColors!.withOpacity(0.0)
                                 : Colors.grey[800]!.withOpacity(0.0)
@@ -242,8 +242,8 @@ class CarouselState extends State<Carousel> {
                 ? Container(
                     decoration: BoxDecoration(
                       borderRadius: widget.borderRadius
-                          ? BorderRadius.all(widget.radius! != null
-                              ? widget.radius
+                          ? BorderRadius.all(widget.radius != null
+                              ? widget.radius!
                               : Radius.circular(8.0))
                           : null,
                       image: DecorationImage(
@@ -260,11 +260,11 @@ class CarouselState extends State<Carousel> {
                                 end: Alignment.center,
                                 stops: [0.0, widget.overlayShadowSize],
                                 colors: [
-                                  widget.overlayShadowColors! != null
+                                  widget.overlayShadowColors != null
                                       ? widget.overlayShadowColors!
                                           .withOpacity(1.0)
-                                      : Colors.grey[800].withOpacity(1.0),
-                                  widget.overlayShadowColors! != null
+                                      : Colors.grey[800]!.withOpacity(1.0),
+                                  widget.overlayShadowColors != null
                                       ? widget.overlayShadowColors!
                                           .withOpacity(0.0)
                                       : Colors.grey[800]!.withOpacity(0.0)
@@ -291,13 +291,13 @@ class CarouselState extends State<Carousel> {
     ].contains(widget.dotPosition)
         ? widget.dotVerticalPadding
         : null;
-    double left = [DotPosition.topLeft, DotPosition.bottomLeft]
+    double? left = [DotPosition.topLeft, DotPosition.bottomLeft]
             .contains(widget.dotPosition)
-        ? widget.dotHorizontalPadding!
+        ? widget.dotHorizontalPadding
         : null;
-    double right = [DotPosition.topRight, DotPosition.bottomRight]
+    double? right = [DotPosition.topRight, DotPosition.bottomRight]
             .contains(widget.dotPosition)
-        ? widget.dotHorizontalPadding!
+        ? widget.dotHorizontalPadding
         : null;
 
     if (left == null && right == null) {
@@ -314,21 +314,21 @@ class CarouselState extends State<Carousel> {
                 controller: _controller,
                 children: listImages,
                 onPageChanged: (currentPage) {
-                  if (widget.onImageChange! != null) {
-                    widget.onImageChange(_currentImageIndex, currentPage)!;
+                  if (widget.onImageChange != null) {
+                    widget.onImageChange!(_currentImageIndex, currentPage);
                   }
 
                   _currentImageIndex = currentPage;
                 },
               );
 
-              if (widget.onImageTap! == null) {
+              if (widget.onImageTap == null) {
                 return pageView;
               }
 
               return GestureDetector(
                 child: pageView,
-                onTap: () => widget.onImageTap(_currentImageIndex)!,
+                onTap: () => widget.onImageTap!(_currentImageIndex),
               );
             },
           ),
@@ -394,7 +394,7 @@ class DotsIndicator extends AnimatedWidget {
       this.dotSize,
       this.dotIncreaseSize,
       this.dotSpacing})
-      : super(listenable: controller);
+      : super(listenable: controller!);
 
   // The PageController that this DotsIndicator is representing.
   final PageController? controller;
@@ -439,7 +439,7 @@ class DotsIndicator extends AnimatedWidget {
             width: dotSize! * zoom,
             height: dotSize! * zoom,
             child: InkWell(
-              onTap: () => onPageSelected(index)!,
+              onTap: () => onPageSelected!(index),
             ),
           ),
         ),
