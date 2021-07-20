@@ -38,7 +38,7 @@ class Carousel extends StatefulWidget {
   final Color dotColor;
 
   // The background Color of the dots. Default is [Colors.grey[800].withOpacity(0.5)]
-  final Color dotBgColor;
+  final Color? dotBgColor;
 
   // The Color of each increased dot. Default is Colors.white
   final Color dotIncreasedColor;
@@ -56,7 +56,7 @@ class Carousel extends StatefulWidget {
   final bool borderRadius;
 
   //Border Radius of the images. Default is [Radius.circular(8.0)]
-  final Radius radius;
+  final Radius? radius;
 
   //Indicator position. Default bottomCenter
   final DotPosition dotPosition;
@@ -77,7 +77,7 @@ class Carousel extends StatefulWidget {
   final bool overlayShadow;
 
   //Choose the color of the overlay Shadow color. Default Colors.grey[800]
-  final Color overlayShadowColors;
+  final Color? overlayShadowColors;
 
   //Choose the size of the Overlay Shadow, from 0.0 to 1.0. Default 0.5
   final double overlayShadowSize;
@@ -89,38 +89,38 @@ class Carousel extends StatefulWidget {
   final Duration autoplayDuration;
 
   //On image tap event, passes current image index as an argument
-  final void Function(int) onImageTap;
+  final void Function(int)? onImageTap;
 
   //On image change event, passes previous image index and current image index as arguments
-  final void Function(int, int) onImageChange;
+  final void Function(int, int)? onImageChange;
 
   Carousel({
-    this.images,
+    required this.images,
     this.animationCurve = Curves.ease,
     this.animationDuration = const Duration(milliseconds: 300),
     this.dotSize = 8.0,
     this.dotSpacing = 25.0,
     this.dotIncreaseSize = 2.0,
     this.dotColor = Colors.white,
-    this.dotBgColor,
+    required this.dotBgColor,
     this.dotIncreasedColor = Colors.white,
     this.showIndicator = true,
     this.indicatorBgPadding = 20.0,
     this.boxFit = BoxFit.cover,
     this.borderRadius = false,
-    this.radius,
+    required this.radius,
     this.dotPosition = DotPosition.bottomCenter,
     this.dotHorizontalPadding = 0.0,
     this.dotVerticalPadding = 0.0,
     this.moveIndicatorFromBottom = 0.0,
     this.noRadiusForIndicator = false,
     this.overlayShadow = false,
-    this.overlayShadowColors,
+    required this.overlayShadowColors,
     this.overlayShadowSize = 0.5,
     this.autoplay = true,
     this.autoplayDuration = const Duration(seconds: 3),
-    this.onImageTap,
-    this.onImageChange,
+    required this.onImageTap,
+    required this.onImageChange,
     this.defaultImage,
   });
 
@@ -129,7 +129,7 @@ class Carousel extends StatefulWidget {
 }
 
 class CarouselState extends State<Carousel> {
-  Timer timer;
+  Timer? timer;
   int _currentImageIndex = 0;
   PageController _controller = PageController();
 
@@ -141,7 +141,7 @@ class CarouselState extends State<Carousel> {
       if (widget.autoplay) {
         timer = Timer.periodic(widget.autoplayDuration, (_) {
           if (_controller.hasClients) {
-            if (_controller.page.round() == widget.images!.length - 1) {
+            if (_controller.page!.round() == widget.images!.length - 1) {
               _controller.animateToPage(
                 0,
                 duration: widget.animationDuration,
@@ -161,9 +161,7 @@ class CarouselState extends State<Carousel> {
   @override
   void dispose() {
     _controller.dispose();
-    _controller = null;
-    timer?.cancel();
-    timer = null;
+    timer!.cancel();
     super.dispose();
   }
 
@@ -200,9 +198,9 @@ class CarouselState extends State<Carousel> {
                                         .withOpacity(1.0)
                                     : Colors.grey[800].withOpacity(1.0),
                                 widget.overlayShadowColors != null
-                                    ? widget.overlayShadowColors
+                                    ? widget.overlayShadowColors!
                                         .withOpacity(0.0)
-                                    : Colors.grey[800].withOpacity(0.0)
+                                    : Colors.grey[800]!.withOpacity(0.0)
                               ],
                             ),
                           ),
@@ -227,8 +225,8 @@ class CarouselState extends State<Carousel> {
                                 ? widget.overlayShadowColors.withOpacity(1.0)
                                 : Colors.grey[800].withOpacity(1.0),
                             widget.overlayShadowColors != null
-                                ? widget.overlayShadowColors.withOpacity(0.0)
-                                : Colors.grey[800].withOpacity(0.0)
+                                ? widget.overlayShadowColors!.withOpacity(0.0)
+                                : Colors.grey[800]!.withOpacity(0.0)
                           ],
                         ),
                       ),
@@ -267,9 +265,9 @@ class CarouselState extends State<Carousel> {
                                           .withOpacity(1.0)
                                       : Colors.grey[800].withOpacity(1.0),
                                   widget.overlayShadowColors != null
-                                      ? widget.overlayShadowColors
+                                      ? widget.overlayShadowColors!
                                           .withOpacity(0.0)
-                                      : Colors.grey[800].withOpacity(0.0)
+                                      : Colors.grey[800]!.withOpacity(0.0)
                                 ],
                               ),
                             ),
@@ -295,11 +293,11 @@ class CarouselState extends State<Carousel> {
         : null;
     double left = [DotPosition.topLeft, DotPosition.bottomLeft]
             .contains(widget.dotPosition)
-        ? widget.dotHorizontalPadding
+        ? widget.dotHorizontalPadding!
         : null;
     double right = [DotPosition.topRight, DotPosition.bottomRight]
             .contains(widget.dotPosition)
-        ? widget.dotHorizontalPadding
+        ? widget.dotHorizontalPadding!
         : null;
 
     if (left == null && right == null) {
@@ -344,7 +342,7 @@ class CarouselState extends State<Carousel> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: widget.dotBgColor == null
-                        ? Colors.grey[800].withOpacity(0.5)
+                        ? Colors.grey[800]!.withOpacity(0.5)
                         : widget.dotBgColor,
                     borderRadius: widget.borderRadius
                         ? (widget.noRadiusForIndicator
@@ -399,49 +397,49 @@ class DotsIndicator extends AnimatedWidget {
       : super(listenable: controller);
 
   // The PageController that this DotsIndicator is representing.
-  final PageController controller;
+  final PageController? controller;
 
   // The number of items managed by the PageController
-  final int itemCount;
+  final int? itemCount;
 
   // Called when a dot is tapped
-  final ValueChanged<int> onPageSelected;
+  final ValueChanged<int>? onPageSelected;
 
   // The color of the dots.
-  final Color color;
+  final Color? color;
 
   // The color of the increased dot.
-  final Color increasedColor;
+  final Color? increasedColor;
 
   // The base size of the dots
-  final double dotSize;
+  final double? dotSize;
 
   // The increase in the size of the selected dot
-  final double dotIncreaseSize;
+  final double? dotIncreaseSize;
 
   // The distance between the center of each dot
-  final double dotSpacing;
+  final double? dotSpacing;
 
   Widget _buildDot(int index) {
     double selectedness = Curves.easeOut.transform(
       max(
         0.0,
-        1.0 - ((controller.page ?? controller.initialPage) - index).abs(),
+        1.0 - ((controller!.page ?? controller!.initialPage) - index).abs(),
       ),
     );
-    double zoom = 1.0 + (dotIncreaseSize - 1.0) * selectedness;
-    final dotColor = zoom > 1.0 ? increasedColor : color;
+    double zoom = 1.0 + (dotIncreaseSize! - 1.0) * selectedness;
+    final dotColor = zoom > 1.0 ? increasedColor! : color!;
     return Container(
-      width: dotSpacing,
+      width: dotSpacing!,
       child: Center(
         child: Material(
           color: dotColor,
           type: MaterialType.circle,
           child: Container(
-            width: dotSize * zoom,
-            height: dotSize * zoom,
+            width: dotSize! * zoom,
+            height: dotSize! * zoom,
             child: InkWell(
-              onTap: () => onPageSelected(index),
+              onTap: () => onPageSelected(index)!,
             ),
           ),
         ),
@@ -452,7 +450,7 @@ class DotsIndicator extends AnimatedWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List<Widget>.generate(itemCount, _buildDot),
+      children: List<Widget>.generate(itemCount!, _buildDot),
     );
   }
 }
