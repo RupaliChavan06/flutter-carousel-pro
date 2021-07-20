@@ -95,7 +95,7 @@ class Carousel extends StatefulWidget {
   final void Function(int, int)? onImageChange;
 
   Carousel({
-    this.images,
+    this.images!,
     this.animationCurve = Curves.ease,
     this.animationDuration = const Duration(milliseconds: 300),
     this.dotSize = 8.0,
